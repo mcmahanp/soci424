@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Peter McMahan for SOCI 424" />
+  <title>Lab 1: From observations to networks</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="ps.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Lab 1: From observations to networks</h1>
+<p class="author">Peter McMahan for <a href="https://soci424.netlify.app/">SOCI 424</a></p>
+</header>
+<p><strong>Due Monday, Sept. 28 by the start of class (8:35am, Eastern Daylight Time)</strong></p>
+<p>This lab will introduce you to network data representations in R. <strong><em>To complete the lab, you should create an R script that will address all of the questions below. Responses should use plain, descriptive language to address the questions. The text of your responses can be included in the file as comments (putting a <code>#</code> character before a line of text will tell R to ignore that line).</em></strong> The following illustrates a good format:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">###</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="co"># Question 1a</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="co">###</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co"># The code above creates a vector of numbers from 1 to 10.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="co"># These are some of my favorite numbers.</span></span></code></pre></div>
+<p><strong>Southern culture</strong></p>
+<p>The data we will use for this lab comes from the book <em>Deep South: A Social Anthropological Study of Caste and Class</em> <span class="citation" data-cites="davisDeepSouthSocial2009">(Davis, Gardner, and Gardner [1941] 2009)</span>. Among the book’s detailed accounts of early–20th century social systems in the Southern United States, it contains data on the participation of a sample of 18 upper-class white women in a series of 14 social events in 1936. The authors provide the following figure to illustrate the data:</p>
+<figure>
+<img src="fig/02-davis_1941_fig3.png" style="width:100.0%" alt="Figure 3 from Davis, Gardner, and Gardner ([1941] 2009)" /><figcaption aria-hidden="true">Figure 3 from <span class="citation" data-cites="davisDeepSouthSocial2009">Davis, Gardner, and Gardner ([1941] 2009)</span></figcaption>
+</figure>
+<h2 id="reading-the-data">1. Reading the data</h2>
+<div class="contentblock">
+<p>We will use the data presented by <span class="citation" data-cites="davisDeepSouthSocial2009">Davis, Gardner, and Gardner ([1941] 2009)</span> to examine the social structure among the 18 women in the figure.</p>
+<section id="a." class="challenge">
+<h2>1a.</h2>
+<p>It is always a good idea to visually inspect a source of data before you start analyzing it in R. According to the figure above, what is the <em>least</em> and <em>most</em> number of social events that any woman participated in? Which women were most active (i.e. participated in the most events)?</p>
+</section>
+<section id="b." class="challenge">
+<h2>1b.</h2>
+<p>Is there anything you can tell informally about the social structure among these women just by looking at the events table? Do you think the women are separated into different cliques? Do you think some of the people might be more central to the social life than others?</p>
+</section>
+<section id="c." class="challenge">
+<h2>1c.</h2>
+<p>One way to represent data of this type in R is as a matrix with values <code>1</code> (representing participation) and <code>0</code> (representing non-participation). The following snippet creates such a matrix, with 18 rows and 14 columns. However, it is missing data for Miss Charlotte McDowd, Miss Ruth Desand, and Mrs. Flora Price, who are erroneously indicated to have not participated in any events. <em>Using the figure above, update the code below to include participation for these three women.</em> (You can copy and paste the code into your own file in RStudio and edit it there)</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co"># this code uses R&#39;s `matrix()` function to take a sequence of numbers</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="co"># and convert them to a 2-dimensional matrix. For this to work, it needs</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a><span class="co"># to know how many rows to expect  (`nrow=18`), and whether to fill the</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="co"># matrix column-by-column, or row-by-row (`byrow=TRUE`)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a>events &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>  <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a>  <span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a>  <span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a>  <span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a>),<span class="dt">nrow=</span><span class="dv">18</span>,<span class="dt">byrow=</span><span class="ot">TRUE</span>)</span></code></pre></div>
+</section>
+<section id="d." class="challenge">
+<h2>1d.</h2>
+<p>Now that the table is represented in the matrix <code>events</code>, we can use R to tell us a bit more about it. The functions <code>rowSums(events)</code> and <code>colSums(events)</code> will add up all of the numbers in each row and in each column of <code>events</code>, respectively. Using these functions, answer the following questions (<em>show your code for each</em>):</p>
+<ul>
+<li>Which event was the most popular (had the most attendees)?</li>
+<li>How many women attended exactly four events?</li>
+</ul>
+</section>
+</div>
+<h2 id="personperson-relations">2. Person–person relations</h2>
+<div class="contentblock">
+<p>One way to infer the relationships among these 18 women is to ask how frequently they attended the same event. Presumably, women who have a closer relationship will also attend more events together.</p>
+<section id="a.-1" class="challenge">
+<h2>2a.</h2>
+<p>Fortunately for us, there is a very basic technique from linear algebra that will turn an <em>affiliation matrix</em> like the one you created above into a <em>co-occurrence</em> matrix that will measure co-attendance at events. To do so, we will use <a href="https://en.wikipedia.org/wiki/Matrix_multiplication">matrix multiplication</a>. You don’t need to know anything about linear algebra for this to work, and for the time being, you can just treat it like a magic wand (we will cover this more in a later class). <em>Use the following command to make a co-occurrence matrix for event attendance</em>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="co"># `%*%` is the R command for matrix multiplication,</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="co"># and the `t()` function transposes a matrix</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>co_attend &lt;-<span class="st"> </span>events <span class="op">%*%</span><span class="st"> </span><span class="kw">t</span>(events)</span></code></pre></div>
+</section>
+<section id="b.-1" class="challenge">
+<h2>2b.</h2>
+<p>Visually inspect this new matrix <code>co_attend</code>, either by typing it into the R console on its own or by clicking on it in the RStudio “environment” pane.</p>
+<ul>
+<li>How many rows and columns does it have?</li>
+<li>What number is in the third row of the first column, and what does it represent in plain language?</li>
+<li>What number is in the last row of the last column, and what does it represent in plain language?</li>
+<li>Where would you look in this matrix to tell how many events Mrs. Flora Price co-attended with Miss Laura Mandeville?</li>
+</ul>
+</section>
+<section id="c.-1" class="challenge">
+<h2>2c.</h2>
+<p>Use the <code>max()</code> and <code>min()</code> functions to determine the maximum and minimum number of events that any pair of women in this sample attended together.</p>
+</section>
+<section id="d.-1" class="challenge">
+<h2>2d.</h2>
+<p>Make a new matrix, called <code>co_attend_3plus</code> that has the same shape as <code>co_attend</code>, but whose values are either <code>TRUE</code> or <code>FALSE</code>, indicating for each pair of women whether they have attended <em>at least 3</em> event together. (<em>Note: This one may be a little tricky for new R users. The operator <code>&gt;=</code> will tell you whether the value on the left is at least as big as the value on the right.</em>)</p>
+<ul>
+<li>How does <code>co_attend_3plus</code> represent a different type of relationship between the pairs of women than <code>co_attend</code>?</li>
+</ul>
+</section>
+</div>
+<h2 id="networks">3. Networks</h2>
+<div class="contentblock">
+<p>You will now convert this data into network representations in order to visualize it for further analysis. I will gloss over some of the details here—we will cover these methods in detail later on.</p>
+<div class="callout">
+<p><strong><em>Note:</em></strong> The following questions require you to have the <code>igraph</code> add-on package installed. This does not come with R by default, so you will have to install it yourself (if you haven’t already). To install <code>igraph</code> you can either:</p>
+<ul>
+<li>Use “Tools &gt; Install Packages …” in RStudio, and type “<code>igraph</code>”" into the search bar <strong>OR</strong></li>
+<li>Enter <code>install.packages('igraph')</code> into the R console</li>
+</ul>
+<p>After you have installed the package, you will then need to load it into your R session with the command <code>library(igraph)</code>.</p>
+</div>
+<section id="a.-2" class="challenge">
+<h2>3a.</h2>
+<p>The function <code>graph_from_adjacency_matrix()</code> from the <code>igraph</code> package converts an <em>adjacency matrix</em> like the co-attendance matrix you created above into a <code>graph</code> object. It automatically figures out how many nodes there are in the network by looking at the number of rows/columns in the matrix, and constructs edges between those nodes based on the data. Use the following command to created an <em>undirected</em>, <em>weighted</em> network from the <code>co_attend</code> matrix you already made:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co"># The `diag=FALSE` argument tells R to ignore the *diagonal* of the matrix</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="co"># (the 1st row of the 1st column, 2nd row of 2nd column, etc), which would </span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="co"># create edges from each node back to itself. We will talk more about such</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="co"># `loop` edges later.</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>event_net &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a>  co_attend, <span class="dt">mode=</span><span class="st">&#39;undirected&#39;</span>, </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>  <span class="dt">weighted=</span><span class="ot">TRUE</span>, <span class="dt">diag=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+</section>
+<section id="b.-2" class="challenge">
+<h2>3b.</h2>
+<p>We will talk about plotting networks in detail later in the course, but for the moment we can mostly use the default options built into <code>igraph</code>. Use the following two commands to (a) tell <code>igraph</code> that we want the weight of the edges to be reflected in the width of the lines in the plot, and (b) to plot <code>event_net</code> using the default parameters. Don’t worry about how these commands work yet.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">E</span>(event_net)<span class="op">$</span>width &lt;-<span class="st"> </span><span class="kw">E</span>(event_net)<span class="op">$</span>weight</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="kw">plot</span>(event_net)</span></code></pre></div>
+</section>
+<section id="c.-2" class="challenge">
+<h2>3c.</h2>
+<p>Look at the plot that is created. What kinds of patterns can you see? Who is central and who is peripheral to the social structure this network represents?</p>
+</section>
+<section id="d.-2" class="challenge">
+<h2>3d.</h2>
+<p>We are now going to create and plot an <em>unweighted</em> network from the matrix <code>co_attend_3plus</code> you created earlier based on a different measure of “relationship” between the women.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>event_net_3plus &lt;-<span class="st"> </span><span class="kw">graph_from_adjacency_matrix</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  co_attend_3plus, <span class="dt">mode=</span><span class="st">&#39;undirected&#39;</span>, <span class="dt">diag=</span><span class="ot">FALSE</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="kw">plot</span>(event_net_3plus)</span></code></pre></div>
+<p>Execute the commands above and inspect this new network visually, then answer the following questions:</p>
+<ul>
+<li>What is different about this network?</li>
+<li>Why does it look so different?</li>
+<li>In what ways is this new network a better representation of the social structure among the women? In what ways is it worse?</li>
+</ul>
+</section>
+</div>
+<h1 class="unnumbered" id="references">References</h1>
+<div id="refs" class="references hanging-indent" role="doc-bibliography">
+<div id="ref-davisDeepSouthSocial2009">
+<p>Davis, Allison, Burleigh Bradford Gardner, and Mary R. Gardner. (1941) 2009. <em>Deep South: A Social Anthropological Study of Caste and Class</em>. Univ of South Carolina Press.</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SOCI 424: Networks and Social Structures</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="style.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.1.7/css/fork-awesome.min.css" integrity="sha256-gsmEoJAws/Kd3CjuOQzLie5Q3yshhvmo7YNtBG7aaEY=" crossorigin="anonymous">
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SOCI 424: Networks and Social Structures</h1>
+</header>
+<table id="personnel">
+<tr>
+<td>
+<strong>Location</strong>
+</td>
+<td>
+Online
+</td>
+</tr>
+<tr>
+<td>
+<strong>Time</strong>
+</td>
+<td>
+<strong>Fall 2020</strong>, Mondays 8:35–11:25am
+</td>
+</tr>
+<tr>
+<td>
+<strong>Instructor</strong>
+</td>
+<td>
+<strong>Peter McMahan</strong> <br> (<a href="mailto:peter.mcmahan@mcgill.ca" class="email">peter.mcmahan@mcgill.ca</a>; <a href="tel://(514)398-6839">(514)398-6839</a>)
+</td>
+</tr>
+<tr>
+<td>
+<strong>Syllabus</strong>
+</td>
+<td>
+<a href="https://soci424.netlify.com/" class="uri">https://soci424.netlify.com/</a>
+</td>
+</tr>
+</table>
+<section id="description" class="level1">
+<h1>Description</h1>
+<div class="contentblock">
+<p>Social network analysis (SNA) encompasses an increasingly central set of methods and theories in the study of social structures. This course will provide an overview of the foundational theories and core measures and methods used in the social-scientific literature. While students will learn to implement their own network analysis using quantitative methods, just as much emphasis will be placed on generating theoretically motivated questions and analysis.</p>
+<p>The course is structured as a hybrid of lectures and seminars. Most of the classes will begin with a short presentation by the instructor, but the bulk of the class time will be spent in (structured and unstructured) discussion with your classmates. The success of the course therefore relies on students’ careful readings of the assigned texts and critical engagement with the topics we will cover.</p>
+</div>
+</section>
+<section id="expectations" class="level1">
+<h1>Expectations</h1>
+<div class="contentblock">
+<p>Students are expected to (<strong>1</strong>) closely read the assigned texts, (<strong>2</strong>) participate in group discussions and worksheets, (<strong>3</strong>) complete (approximately) weekly methods labs, and (<strong>4</strong>) propose and complete a final paper and presentation. Each of these expectations is detailed below.</p>
+<section id="reading" class="level2">
+<h2>Reading</h2>
+<p>The assigned readings are the core of the course material, and students are expected to carefully and critically read each assignment <em>before</em> class. To facilitate students’ engagement with the reading and to help prevent students from falling behind, we will use the online tool <a href="https://perusall.com/"><em>Perusall</em></a> for all required readings. <em>Perusall</em> is a reading platform in which students annotate texts collaboratively alongside one another. <a href="pages/perusall.html">More information on how <em>Perusall</em> works and how it is integrated into the course is available here</a>.</p>
+<p><strong>To access <em>Perusall</em> through MyCourses, navigate to <em>Content</em> &gt; <em>Perusall (readings)</em> &gt; <em>Perusall</em>, and then click the “Open Link” button</strong>. This will take you to the <em>Perusall</em> site and automatically register you as a member of the course. If you are having any trouble accessing the readings through <em>Perusall</em> contact the instructor right away.</p>
+<p>Readings will be graded as either complete (1 point) or incomplete (0 points). Student responses must demonstrate a thoughtful and thorough reading of the entire assignment to receive credit. At the end of the semester, the <em>four</em> lowest reading grades will be dropped from the assessment. <strong>Reading assessments will contribute 10% to the final grade for the course</strong>.</p>
+</section>
+<section id="class-periods" class="level2">
+<h2>Class periods</h2>
+<p>Most of the scheduled class periods will follow a three-part structure. We will begin with brief participatory lecture covering the major themes and methods from the required reading. We will then break up into small groups of three to five students to engage in a structured discussion. Finally, we will reconvene to discuss our insights, questions, and connections as a class.</p>
+<p>To facilitate class engagement in the remote learning setting, we will use the online tool <a href="https://campuswire.com/">CampusWire</a> to stream lectures and have small-group and class discussions. CampusWire will be the primary means of communicating for the class, and students are encouraged to use it to talk with one another both during class and throughout the rest of the week. Instructions for accessing CampusWire will be posted before the term begins.</p>
+<p>The lecture portion of class will be recorded and made available shortly after class. PDF files of the slides will be posted before class.</p>
+</section>
+<section id="small-group-discussions" class="level2">
+<h2>Small-group discussions</h2>
+<p>The small-group discussions will be facilitated with short worksheets to help structure conversation and highlight important themes. The worksheets will be straightforward, and they should be used as a starting point for conversation rather than an end goal. I will collect the worksheets at the end of class, which will count toward the ‘participation’ grade described below.</p>
+</section>
+<section id="methods-labs" class="level2">
+<h2>Methods labs</h2>
+<p>Most weeks of the term, students will be expected to complete a short lab assignment covering relevant network methods. These labs are intended to give students a basic foundation for quantitative network analysis. The labs will be geared toward analysis in the <a href="https://www.r-project.org/">R statistical language</a>, but students who are proficient in another language (e.g. Python) and can research the appropriate libraries and tools themselves may use that language instead. The labs are required but ungraded (marked simply as ‘completed’ or ‘incomplete’). Each student is responsible for turning in their own lab, but students are strongly encouraged to discuss and collaborate on the labs using CampusWire.</p>
+</section>
+<section id="independent-research-project" class="level2">
+<h2>Independent research project</h2>
+<p>Each student will finish an independent research project by the end of the semester. The projects will be graded on the basis of four required assessments:</p>
+<ol type="1">
+<li><strong>Precis</strong> (Due October 19): This will be a short (no more than one page) description of the research project. It should include a specific research question, a brief description of the data that will be used, and an outline of the theories and methods that will be employed. The purpose of the precis is to motivate the project and to establish its feasibility, not to perform any analyses or to answer any research questions.</li>
+<li><strong>Proposal</strong> (Due November 9): Based on the feedback received from the precis, the project proposal will give a more detailed account of the research project. A good proposal will give a thorough account of the paper’s thesis, its theories, data that it will use..</li>
+<li><strong>Presentation</strong> (In class, December 7): Each student will give a brief, <a href="https://en.wikipedia.org/wiki/PechaKucha">PechaKucha-style</a> presentation of their final project in class, consisting of twenty slides that will automatically advance every twenty seconds. The presentation should describe your research question succinctly, give a clear account of the theories and methods used, and communicate the conclusions.</li>
+<li><strong>Project write-up</strong> (Due December 17): The writeup for the final project will take the form of a scholarly paper. This should go into careful detail about the project, including a full description of the theoretical frame, exposition and motivation of the data and methods, and a careful, thorough interpretation of the results. It should include tables and figures to illustrate your analysis.</li>
+</ol>
+<p>Each student should arrange a brief meeting with me early in the term to discuss ideas for their research project and the appropriateness for the course.</p>
+</section>
+</div>
+</section>
+<section id="evaluation" class="level1">
+<h1>Evaluation</h1>
+<div class="contentblock">
+<table id="grading">
+<tr>
+<td>
+<strong>Reading</strong>
+</td>
+<td>
+See <a href="#schedule">schedule</a> for dates
+</td>
+<td>
+10% of final grade
+</td>
+</tr>
+<tr>
+<td>
+<strong>Class participation</strong>
+</td>
+<td>
+See <a href="#schedule">schedule</a> for dates
+</td>
+<td>
+10% of final grade
+</td>
+</tr>
+<tr>
+<td>
+<strong>Methods labs</strong>
+</td>
+<td>
+See <a href="#schedule">schedule</a> for dates
+</td>
+<td>
+20% of final grade
+</td>
+</tr>
+<tr>
+<td>
+<strong>Final project précis</strong>
+</td>
+<td>
+October 19
+</td>
+<td>
+5% of final grade
+</td>
+</tr>
+<tr>
+<td>
+<strong>Final project proposal</strong>
+</td>
+<td>
+November 9
+</td>
+<td>
+10% of final grade
+</td>
+</tr>
+<tr>
+<td>
+<strong>Final project presentation</strong>
+</td>
+<td>
+December 7
+</td>
+<td>
+20% of final grade
+</td>
+</tr>
+<tr>
+<td>
+<strong>Final project paper</strong>
+</td>
+<td>
+December 17
+</td>
+<td>
+25% of final grade
+</td>
+</tr>
+</table>
+<section id="accessibility" class="level4">
+<h4>Accessibility</h4>
+<p>Students with disabilities in need of accommodation please contact the Office for Students with Disabilities (<a href="http://www.mcgill.ca/osd/" class="uri">http://www.mcgill.ca/osd/</a>, phone <a href="tel://514-398-6009">514-398-6009</a>). <strong><em>Students may also contact me directly</em></strong>—I will make every effort to accommodate individual circumstances.</p>
+</section>
+<section id="academic-integrity" class="level4">
+<h4>Academic integrity</h4>
+<p>McGill University values academic integrity. Therefore, all students must understand the meaning and consequences of cheating, plagiarism and other academic offences under the Code of Student Conduct and Disciplinary Procedures (see <a href="http://www.mcgill.ca/students/srr/honest/" class="uri">http://www.mcgill.ca/students/srr/honest/</a> for more information).(approved by Senate on 29 January 2003)</p>
+<p><em>L’université McGill attache une haute importance à l’honnêteté académique. Il incombe par conséquent à tous les étudiants de comprendre ce que l’on entend par tricherie, plagiat et autres infractions académiques, ainsi que les conséquences que peuvent avoir de telles actions, selon le Code de conduite de l’étudiant et des procédures disciplinaires (pour de plus amples renseignements, veuillez consulter le site <a href="http://www.mcgill.ca/students/srr/honest/" class="uri">http://www.mcgill.ca/students/srr/honest/</a>).</em></p>
+</section>
+<section id="lanugage-of-evaluation" class="level4">
+<h4>Lanugage of evaluation</h4>
+<p>In accord with McGill University’s Charter of Students’ Rights, students in this course have the right to submit in English or in French any written work that is to be graded. (approved by Senate on 21 January 2009)</p>
+<p><em>Conformément à la Charte des droits de l’étudiant de l’Université McGill, chaque étudiant a le droit de soumettre en français ou en anglais tout travail écrit devant être noté (sauf dans le cas des cours dont l’un des objets est la maîtrise d’une langue).</em></p>
+</section>
+<section id="grade-appeals" class="level4">
+<h4>Grade appeals</h4>
+<p>Instructors and teaching assistants take the marking of assignments very seriously, and we work diligently to be fair, consistent, and accurate. Nonetheless, mistakes and oversights occasionally happen. If you believe that to be the case, you must adhere to the following rules:</p>
+<ul>
+<li>If it is a mathematical error simply alert the instructor of the error.</li>
+<li>In the case of more substantive appeals, you must:
+<ol type="1">
+<li>Wait at least 24 hours after receiving your mark.</li>
+<li>Carefully re-read your assignment, all guidelines and marking schemes, and the grader’s comments.</li>
+<li>If you wish to appeal, you must submit to the instructor a written explanation of why you think your mark should be altered. Please note that upon re-grade your mark may go down, stay the same, or go up.</li>
+</ol></li>
+</ul>
+</section>
+</div>
+</section>
+<section id="schedule" class="level1">
+<h1>Schedule</h1>
+<div class="contentblock">
+<div class="syllabus_section_date">
+<p>Mon, Sept 14</p>
+</div>
+<div class="syllabus_section_title">
+<p>Introduction: what is social structure and what do networks have to do with it?</p>
+</div>
+<div class="syllabus_section_description">
+<p>Sociologists frequently talk about “social structure.” We begin the course by defining the concept of social structure and examining how it helps us ask and answer important questions. We will also introduce the primary formalization of social structure: the social network.</p>
+</div>
+<div class="syllabus_section_questions">
+<p><strong>Guiding questions</strong>: What is social structure? | How is it different from institutions or groups? | Is a social structure always composed of people? | What is a social relation? | How network structures more than the sum of their relations?</p>
+</div>
+<div class="syllabus_subsection_readings syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Reading</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<div class="required_readings readings">
+<strong>Required:</strong>
+<ul class="reading_list">
+<li class="reading">
+<p><strong><span class="citation" data-cites="martinSocialStructures2009">Martin (2009)</span></strong>, <em>Social Structures</em> Chapter 1</p>
+</li>
+<li class="reading">
+<p><strong><span class="citation" data-cites="weedenSmallWorldNetworkCollege2020">Weeden and Cornwell (2020)</span></strong>, <em>The Small-World Network of College Classes: Implications for Epidemic Spread on a University Campus</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="syllabus_subsection_discussion syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Discussion</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<div class="readings">
+<strong>Lectures:</strong>
+<ul class="reading_list">
+<li class="reading">
+Course intro and mechanics<br>(<a href="slides/soci424.01.pdf" target="_blank">slides <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>)
+</li>
+</ul>
+</div>
+<div class="readings">
+<strong>Worksheets:</strong>
+<ul class="reading_list">
+<li class="reading">
+<p>Preliminaries of social structures (<a href="discussion_questions/soci424.dq1.docx" target="_blank">doc <i class="fa fa-file-word-o" aria-hidden="true"></i></a>)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="syllabus_subsection_assignments syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Assignments</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<ul class="assignment_list">
+<li class="assignment">
+<a href="labs/lab0.html" target="_blank"><strong>Lab 0 (<em>optional</em>)</strong>: Getting up and running with R</a>
+</li>
+</ul>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Sept 21</p>
+</div>
+<div class="syllabus_section_title">
+<p>Network basics: dyadic data and network ties</p>
+</div>
+<div class="syllabus_section_description">
+<p>Using networks to understand social phenomena raises a number of distinct questions for the kind of data we collect and use. We will formalize the representation of networks, discussing data formats, measurement, and network construction.</p>
+</div>
+<div class="syllabus_section_questions">
+<p><strong>Guiding questions</strong>: What kinds of data can be understood as dyadic? | How useful is the concept of a network ‘tie’? | How do we distinguish between vertex and edge attributes? | What do we lose with a network representation?</p>
+</div>
+<div class="syllabus_subsection_readings syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Reading</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<div class="required_readings readings">
+<strong>Required:</strong>
+<ul class="reading_list">
+<li class="reading">
+<p><strong><span class="citation" data-cites="scottSAGEHandbookSocial2011">Scott (2011)</span></strong> <em>A Brief Introduction to Analyzing Social Network Data</em></p>
+</li>
+<li class="reading">
+<p><strong><span class="citation" data-cites="borgattiNetworkTheory2011">Borgatti and Halgin (2011)</span></strong> <em>On Network Theory</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="syllabus_subsection_discussion syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Discussion</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<div class="readings">
+<strong>Lectures:</strong>
+<ul class="reading_list">
+<li class="reading">
+Network repesentation and thoery<br>(<a href="slides/soci424.02.pdf" target="_blank">slides <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>)
+</li>
+</ul>
+</div>
+<div class="readings">
+<strong>Worksheets:</strong>
+<ul class="reading_list">
+<li class="reading">
+<p>Recording and theorizing relations (<a href="discussion_questions/soci424.dq2.docx" target="_blank">doc <i class="fa fa-file-word-o" aria-hidden="true"></i></a>)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Sept 28</p>
+</div>
+<div class="syllabus_section_title">
+<p>Starting small: relational building blocks of social structures</p>
+</div>
+<div class="syllabus_section_description">
+<p>Dyads and triads are the foundation of network structures. This week, we will look at those structures in detail, describe the patterns they can follow, and look at the implications of those patterns for the individuals in a network and for networks as a whole.</p>
+</div>
+<div class="syllabus_section_questions">
+<p><strong>Guiding questions</strong>: What does an individual network tie tell us? | How is directionality of ties important? | How do triads differ from dyads? | What can a person’s friends’ relationships tell us about them? | What kinds of patterns can a person’s egonet display? | What do the patterns of dyads and triads imply about larger network structures?</p>
+</div>
+<div class="syllabus_subsection_readings syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Reading</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<div class="required_readings readings">
+<strong>Required:</strong>
+<ul class="reading_list">
+<li class="reading">
+<p><strong><span class="citation" data-cites="prellSocialNetworkAnalysis2011">Prell (2011)</span></strong> <em>Ch 6: Dyad and triad levels</em></p>
+</li>
+<li class="reading">
+<p><strong><span class="citation" data-cites="mcpherson_birds_2001">McPherson, Smith-Lovin, and Cook (2001)</span></strong> <em>Birds of a Feather: Homophily in Social Networks</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="syllabus_subsection_discussion syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Discussion</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<div class="readings">
+<strong>Lectures:</strong>
+<ul class="reading_list">
+<li class="reading">
+Homophily, dyads, and triads<br>(<a href="slides/soci424.03.pdf" target="_blank">slides <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>)
+</li>
+</ul>
+</div>
+<div class="readings">
+<strong>Worksheets:</strong>
+<ul class="reading_list">
+<li class="reading">
+<p>Transitivity and homophily in practice (<a href="discussion_questions/soci424.dq3.docx" target="_blank">doc <i class="fa fa-file-word-o" aria-hidden="true"></i></a>)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="syllabus_subsection_assignments syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Assignments</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<ul class="assignment_list">
+<li class="assignment">
+<a href="labs/lab1.html" target="_blank"><strong>Lab 1</strong>: From observations to networks</a>
+</li>
+</ul>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Oct 5</p>
+</div>
+<div class="syllabus_section_title">
+<p>Structural components: grouping vertices within networks</p>
+</div>
+<div class="syllabus_section_description">
+<p>Many social structures can be meaningfully partitioned into different groups of members, and even those that cannot often have distinctive groups or clusters embedded within them. We will examine theories and common methods of identifying cliques, groups, clusters, and subcommunities of vertices within networks.</p>
+</div>
+<div class="syllabus_section_questions">
+<p><strong>Guiding questions</strong>: What makes a group a group? | What makes a clique a clique? | Is a group defined by the density of ties within itself or the lack of ties to the outside? | How should we determine the boundary between cohesive groups? | What kinds of groups are disjoint, and what kinds of groups might overelap?</p>
+</div>
+<div class="syllabus_subsection_readings syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Reading</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<div class="required_readings readings">
+<strong>Required:</strong>
+<ul class="reading_list">
+<li class="reading">
+<p><strong><span class="citation" data-cites="prellSocialNetworkAnalysis2011">Prell (2011)</span></strong> <em>Ch 7, pages 151–159: Subgroups level</em></p>
+</li>
+<li class="reading">
+<p><strong>@<span class="citation" data-cites="shwed_temporal_2010">Shwed and Bearman (2010)</span></strong> <em>The Temporal Structure of Scientific Consensus Formation</em></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="syllabus_subsection_discussion syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Discussion</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<div class="readings">
+<strong>Lectures:</strong>
+<ul class="reading_list">
+<li class="reading">
+Clustering in networks<br>(<a href="slides/soci424.04.pdf" target="_blank">slides <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>)
+</li>
+</ul>
+</div>
+<div class="readings">
+<strong>Worksheets:</strong>
+<ul class="reading_list">
+<li class="reading">
+<p>Clusters and scientific consensus (<a href="discussion_questions/soci424.dq4.docx" target="_blank">doc <i class="fa fa-file-word-o" aria-hidden="true"></i></a>)</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="syllabus_subsection_assignments syllabus_subsection">
+<p class="week_subsection_header">
+<strong>Assignments</strong>
+</p>
+<div class="week_subsection_separator">
+
+</div>
+<ul class="assignment_list">
+<li class="assignment">
+<a href="labs/lab2.html" target="_blank">Lab 2: Working with networks in <code>igraph</code><br>(<strong><em>Due Friday, Oct 9</em></strong>)</a>
+</li>
+</ul>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Oct 12</p>
+</div>
+<div class="syllabus_section_title">
+<p>Thanksgiving (no class)</p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Oct 19</p>
+</div>
+<div class="syllabus_section_title">
+<p>The individual in the crowd: what networks can tell us about their members</p>
+</div>
+<div class="syllabus_section_description">
+<p>The ability to talk about individuals’ position within a larger structure has become one of the most useful tools to come out of network analysis. We will look at different notions of network centrality, hierarchy, and other forms of privileged positions.</p>
+</div>
+<div class="syllabus_section_questions">
+<p><strong>Guiding questions</strong>: What does it mean to be ‘central’ in a group? | What different kinds of network positions could give a person power in a social structure? | Does the type of structure matter? the type of relation?</p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Oct 26</p>
+</div>
+<div class="syllabus_section_title">
+<p>Discovering roles: structural equivalence</p>
+</div>
+<div class="syllabus_section_description">
+<p>Structural equivalence categorized nodes in a network by their patterns of relation to the other nodes in that network. We will discuss how structural equivalence classes are similar to and distinct from the clusters and cliques we have looked at, and we will consider the idea of ‘roles’ within a network structure. This will also be our first look at statistical inference on networks: stochastic block models.</p>
+</div>
+<div class="syllabus_section_questions">
+<p><strong>Guiding questions</strong>: Is a person’s role an individual or a relational characterstic? | What aspects of social roles does structural equivalence capture? What does it miss? | What makes equivalence classes distinct from network clusters and cliques?</p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Nov 2</p>
+</div>
+<div class="syllabus_section_title">
+<p>Transmission through networks: social influence and contagion</p>
+</div>
+<div class="syllabus_section_description">
+<p>Networks are an especially useful tool for understanding the transmission of ideas, knowledge, disease, and behavior among groups. We will consider different models of network diffusion and discuss the role of structure in diffusion processes.</p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Nov 9</p>
+</div>
+<div class="syllabus_section_title">
+<p>Institutions influence structure: affiliation networks</p>
+</div>
+<div class="syllabus_section_description">
+<p>Network edges in a network can represent a wide array of different relations between its members, but <em>affiliation</em> edges—those defined by co-membership in some category—yield unique structural outcomes. This week will focus on the particular features of affiliation networks and the insights they have provided into institutional structure.</p>
+</div>
+<div class="syllabus_section_questions">
+<p><strong>Guiding questions</strong>: What is the ‘duality of persons and groups’? | What kinds of features are more and less common in affiliation networks than, say, friendship networks?</p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Nov 16</p>
+</div>
+<div class="syllabus_section_title">
+<p>Relations without networks?: relational sociology and field theory</p>
+</div>
+<div class="syllabus_section_description">
+<p>Although the network formalization has come to dominate the quantitative literature on social structures, there is a gread deal of sociological work on relations and relational structures that is not based on networks. We will discuss the dominant approaches in relational sociology and relate them to networks.</p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Nov 23</p>
+</div>
+<div class="syllabus_section_title">
+<p>Mapping class and culture: structure from language and behavior</p>
+</div>
+<div class="syllabus_section_description">
+<p>Most of the social structures we have looked at so far concern relations between people. This week we will consider networks that use language, tastes, and behaviors as vertices. Networks like this can be used to map the social structures of class, taste, and other cultural objects.</p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Nov 30</p>
+</div>
+<div class="syllabus_section_title">
+<p>Making and breaking ties: statistical models of network formation and evolution</p>
+</div>
+<div class="syllabus_section_description">
+<p>This class will consist of a brief overview of two of the newest and most widely used statistical models of networks: <em>exponential random graph models</em> (ERGMs), and <em>stochastic actor-oriented models</em> (SOAMs).</p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Thu, Dec 3</p>
+</div>
+<div class="syllabus_section_title">
+<p>TBD</p>
+</div>
+<div class="syllabus_section_description">
+<p><em>(Due to an unexpected rescheduling, the subject for Dec 3 will be posted shortly)</em></p>
+</div>
+<div class="schedule_spacer">
+
+</div>
+<div class="syllabus_section_date">
+<p>Mon, Dec 7</p>
+</div>
+<div class="syllabus_section_title">
+<p>Student presentations</p>
+</div>
+<div class="syllabus_section_description">
+<p>Students will give short talks presenting their projects.</p>
+</div>
+</div>
+</section>
+<section id="references" class="level1 unnumbered">
+<h1 class="unnumbered">References</h1>
+<div id="refs" class="references hanging-indent" role="doc-bibliography">
+<div id="ref-borgattiNetworkTheory2011">
+<p>Borgatti, Stephen P., and Daniel S. Halgin. 2011. “On Network Theory.” <em>Organization Science</em> 22 (5): 1168–81. <a href="https://doi.org/10.1287/orsc.1100.0641">https://doi.org/10.1287/orsc.1100.0641</a>.</p>
+</div>
+<div id="ref-martinSocialStructures2009">
+<p>Martin, John Levi. 2009. <em>Social Structures</em>. Princeton University Press.</p>
+</div>
+<div id="ref-mcpherson_birds_2001">
+<p>McPherson, Miller, Lynn Smith-Lovin, and James M Cook. 2001. “Birds of a Feather: Homophily in Social Networks.” <em>Annual Review of Sociology</em> 27 (1): 415–44. <a href="https://doi.org/10.1146/annurev.soc.27.1.415">https://doi.org/10.1146/annurev.soc.27.1.415</a>.</p>
+</div>
+<div id="ref-prellSocialNetworkAnalysis2011">
+<p>Prell, Christina. 2011. <em>Social Network Analysis: History, Theory and Methodology</em>. SAGE.</p>
+</div>
+<div id="ref-scottSAGEHandbookSocial2011">
+<p>Scott, John, ed. 2011. <em>The SAGE Handbook of Social Network Analysis</em>. London ; SAGE,</p>
+</div>
+<div id="ref-shwed_temporal_2010">
+<p>Shwed, Uri, and Peter S. Bearman. 2010. “The Temporal Structure of Scientific Consensus Formation.” <em>American Sociological Review</em> 75 (6): 817–40. <a href="https://doi.org/10.1177/0003122410388488">https://doi.org/10.1177/0003122410388488</a>.</p>
+</div>
+<div id="ref-weedenSmallWorldNetworkCollege2020">
+<p>Weeden, Kim A., and Ben Cornwell. 2020. “The Small-World Network of College Classes: Implications for Epidemic Spread on a University Campus.” <em>Sociological Science</em> 7 (May): 222–41. <a href="https://doi.org/10.15195/v7.a9">https://doi.org/10.15195/v7.a9</a>.</p>
+</div>
+</div>
+</section>
+</body>
+</html>

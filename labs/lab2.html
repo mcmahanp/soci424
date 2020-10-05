@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Peter McMahan for SOCI 424" />
+  <title>Lab 2: Working with networks in igraph</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="ps.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Lab 2: Working with networks in <code>igraph</code></h1>
+<p class="author">Peter McMahan for <a href="https://soci424.netlify.app/">SOCI 424</a></p>
+</header>
+<p><strong>Due Friday, Oct 9 by the 5pm, Eastern Daylight Time</strong></p>
+<blockquote>
+<p><strong><em>To complete the lab, you should create an R script that will address all of the questions below. Responses should use plain, descriptive language to address the questions. The text of your responses can be included in the file as comments (putting a <code>#</code> character before a line of text will tell R to ignore that line).</em></strong> The following illustrates a good format:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co">###</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="co"># Question 1a</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="co">###</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a><span class="co"># The code above creates a vector of numbers from 1 to 10.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a><span class="co"># These are some of my favorite numbers.</span></span></code></pre></div>
+</blockquote>
+<p><strong>Face-to-face contact</strong></p>
+<p>This lab will introduce you to the basic functionalities of the <code>igraph</code> package in R, using a subset of the data from a 2016 study Kenyan households <span class="citation" data-cites="kitiQuantifyingSocialContacts2016">(Kiti et al. 2016)</span>. Participants in this study wore electronic sensors for three days, allowing researchers to record when they were within about 1.5 meters of one another. Sensor-based measurements like these are becoming more common in network research, as they allow for the ‘raw’ measurement of behavior and interaction.</p>
+<figure>
+<img src="fig/03-kiti_2016_fig1.jpg" style="width:70.0%" alt="Figure 1 from Kiti et al. (2016)" /><figcaption aria-hidden="true">Figure 1 from <span class="citation" data-cites="kitiQuantifyingSocialContacts2016">Kiti et al. (2016)</span></figcaption>
+</figure>
+<h2 id="load-and-inspect-the-network">1. Load and inspect the network</h2>
+<div class="contentblock">
+<p>Since the focus of this lab is on working with <code>igraph</code> networks, I have created the network for you and stored it as a <a href="https://en.wikipedia.org/wiki/GraphML">GraphML</a> file online.</p>
+<section id="a." class="challenge">
+<h2>1a.</h2>
+<p>Load the data directly from the internet using the following commands:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="co"># load the igraph library</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="co"># use the `read_graph()` function to load the data at the given web address.</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="co"># (note: the `format` argument is necessary to tell igraph to expect a GraphML file )</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a>kenya &lt;-<span class="st"> </span><span class="kw">read_graph</span>(<span class="st">&#39;https://soci424.netlify.app/data/kenya.graphml&#39;</span>,<span class="dt">format=</span><span class="st">&#39;graphml&#39;</span>)</span></code></pre></div>
+</section>
+<section id="b." class="challenge">
+<h2>1b.</h2>
+<p>Many objects in R have pretty good default visualizations, and <code>igraph</code> graph objects are no exception. Try plotting the <code>kenya</code> network using the <code>plot()</code> function. What kind of structure can you see? Are there distinct clusters in the network? Do some nodes seem more central than others? (<em>Note: each time you use the <code>plot()</code> function the network will look a little bit different. Sometimes plotting multiple times will emphasize different aspects of the network!</em>)</p>
+</section>
+<section id="c." class="challenge">
+<h2>1c.</h2>
+<p>Visualization is all well and good, but frequently we can tell more about a network by looking at some <em>measures</em>.</p>
+<ul>
+<li>Use the <code>vcount()</code> (vertex count) and <code>ecount()</code> (edge count) functions to report the number of people in the network and the number of relations depicted in the network.</li>
+<li>Use the function <code>is_directed()</code> to decide whether this is a <em>directed</em> or <em>undirected</em> network. Does the answer make sense, given the type of data the network contains? Why or why not?</li>
+</ul>
+</section>
+<section id="d." class="challenge">
+<h2>1d.</h2>
+<p>The network plot above is somewhat deceptive, in that it shows all of the ties in the network as identical. In fact, it is showing a tie whenever two people have spent at least one minute within close proximity of each other. But many pairs spent much more time than that. This information is stored in an <em>edge attribute</em> that, in this case, is called “weight”. Use the command <code>E(kenya)$weight</code> to examine the number of minutes represented by each edge in the network.</p>
+<ul>
+<li>Does it seem like most of these edges represent a substantial amount of face-to-face interaction?</li>
+<li>What is the largest amount of time a pair of people spend near each other? (<em>You may want to use the <code>max()</code> function</em>)</li>
+<li><strong>Bonus</strong>: Use the command <code>sum(E(kenya)$weight &gt;= 60)</code> to see how many pairs spent at least 60 minutes with each other over the three days. Can you explain what that command works?</li>
+</ul>
+</section>
+<div class="callout">
+<p><strong><em>Aside:</em></strong> The syntax you just used to access the number of minutes of interaction uses the general mechanism in <code>igraph</code> for accessing individual edges (ties) and vertices (nodes). <code>E(kenya)</code> tells R that you want to look at the entire edge sequence of <code>kenya</code>, and appending <code>$weight</code> to the command indicates that you want to retrieve the <code>weight</code> attribute of each of those edges. Try entering just <code>E(kenya)</code> on its own to see what R gives you.</p>
+<p>While the function <code>E()</code> accesses the <em>edge</em> sequence of a graph, the similar function <code>V()</code> accesses the <em>vertex</em> sequence of a graph. This is what you will use in the next question.</p>
+</div>
+<section id="e." class="challenge">
+<h2>1e.</h2>
+<p>This network also has <em>vertex attributes</em>, which represents information about the individual people in the network. You can see what vertex attributes a network has recorded using the command <code>vertex_attr_names(kenya)</code>.</p>
+<ul>
+<li><p>Try using the command <code>V(kenya)$age</code>. What does it tell you about the people in this network?</p></li>
+<li><p>Now look at the <code>gender</code> attribute. What does it tell you?</p>
+<p>(<em>Note: this data, like a large majority of survey-type data in the social sciences, presumes a gender binary. This is a norm that is changing much too slowly. A binary variable is insufficient for recording or analyzing gendered patterns of interaction, but we often must work with the data that is available.</em>)</p></li>
+<li><p>What other vertex attributes are there? Can you tell what they indicate?</p></li>
+</ul>
+</section>
+</div>
+<h2 id="more-sophisticated-visualization">2. More sophisticated visualization</h2>
+<div class="contentblock">
+<p>Now we will repeat the visualization of the network from <strong>1b</strong>, but add some of the information from the edge and vertex attributes.</p>
+<section id="a.-1" class="challenge">
+<h2>2a.</h2>
+<p>First, we will visualize the strength of the relations between actors (measured by the amount of time they spend around each other) by adjusting the edge width. Unless you tell it otherwise, <code>igraph</code> draws the edges with a width of 1. Use the following commands to set the <code>width</code> attribute of the edges in <code>kenya</code> to be equal to the <code>weight</code> attribute you looked at in <strong>1d</strong>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">E</span>(kenya)<span class="op">$</span>width &lt;-<span class="st"> </span><span class="kw">E</span>(kenya)<span class="op">$</span>weight</span></code></pre></div>
+<ul>
+<li>Now plot the network with <code>plot(kenya)</code>. <em>Ack!</em> What happened? Looking at your response to <strong>1d</strong>, and knowing that the default edge width is 1, can you tell why the graph looks like it does?</li>
+<li>This is a common problem with network visualizations: the “strongest” edges are often <em>much</em> stronger than the “weakest” edges. One way around this is to use a <em>transformation</em> that will shrink thick edges more than it will shrink thin edges. One transformation that often works well is <em>square root</em>. Use the <code>sqrt()</code> function to change the above command so that the width of the edges is the square root of the number of minutes a pair of people spent together.</li>
+<li>Plot the network again with the re-calculated edge widths. Does it look better? Can you differentiate between the pairs of actors that spent a lot of time together and those that spent little time together?</li>
+</ul>
+</section>
+<section id="b.-1" class="challenge">
+<h2>2b.</h2>
+<p>The default labels on the vertices (retrieved from the <code>name</code> attribute) are not very informative. Let’s label them with the household they live in instead.</p>
+<ul>
+<li>Use the <code>V()</code> function to set the <code>label</code> attribute of the vertices with the <code>household</code> attribute. (<em>Hint: this will look very similar to the command to set edge widths from <strong>2a</strong></em>)</li>
+<li>Re-plot the network to see if the numeric household labels are visible.</li>
+</ul>
+</section>
+<section id="c.-1" class="challenge">
+<h2>2c.</h2>
+<p>Next, we will visualize the age of the actors in the network using the size of the vertex. By default, <code>igraph</code> uses a size of 15 for its vertices (for some reason…). Let’s start by representing the youngest people with smaller nodes. The <code>age_cat</code> attribute represents age categories:</p>
+<p><strong>Category 0</strong>: 0 to 5 years old</p>
+<p><strong>Category 1</strong>: 6 to 14 years old</p>
+<p><strong>Category 2</strong>: 15 to 19 years old</p>
+<p><strong>Category 3</strong>: 20 to 49 years old</p>
+<p><strong>Category 5</strong>: 50 years old and above</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co"># first, we need to set a specific size for all of the vertices.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="co"># We&#39;ll stick with the default of 15</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="kw">V</span>(kenya)<span class="op">$</span>size &lt;-<span class="st"> </span><span class="dv">15</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="co"># Next, the square-bracket notation [] lets us set an attribute value</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="co"># for only a subset of the vertices.</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a><span class="co"># Let&#39;s set the youngest vertices (category 0) size to 5.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a><span class="kw">V</span>(kenya)<span class="op">$</span>size[<span class="kw">V</span>(kenya)<span class="op">$</span>age_cat <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="dv">5</span></span></code></pre></div>
+<ul>
+<li>Plot the network with these vertex sizes. Can you see some of the youngest vertices represented by smaller circles?</li>
+<li>Now assign sizes for the rest of the age categories, using the command above as a template. You will need to use some trial and error to find good sizes! (When you are done you should be able to see clusters by age within the three different households.)</li>
+</ul>
+</section>
+<section id="d.-1" class="challenge">
+<h2>2d.</h2>
+<p><strong>Bonus question:</strong> Use the <code>shape</code> vertex attribute to represent the ‘<code>M</code>’ gender with circles and the ‘<code>F</code>’ gender with squares. (<code>igraph</code> recognizes the strings <code>"circle"</code> and <code>"square"</code> for setting vertex shapes)</p>
+</section>
+</div>
+<h2 id="clusters">3. Clusters</h2>
+<div class="contentblock">
+<p>We will use the same strategy of <em>modularity maximization</em> that <span class="citation" data-cites="shwed_temporal_2010">Shwed and Bearman (2010)</span> used to find clusters in the network.</p>
+<section id="a.-2" class="challenge">
+<h2>3a.</h2>
+<p>We will use the function <code>cluster_optimal()</code> to find maximum-modularity clusters.</p>
+<ul>
+<li>Type the command <code>?cluster_optimal</code> into the R console to get help on this function and take a moment to read it. If we do not specify an edge weight when we call the function, will <code>igraph</code> use the <code>weight</code> edge attribute in its calculations?</li>
+<li>Use the <code>cluster_optimal()</code> function to calculate the clusters, and store the result in a variable named <code>clust</code>.</li>
+<li>What can you tell about the clusters just by typing <code>clust</code> into the console and looking at the resulting output?</li>
+</ul>
+</section>
+<section id="b.-2" class="challenge">
+<h2>3b.</h2>
+<p>Now we will represent the clusters with colors in the network visualization. This will require a few steps.</p>
+<ul>
+<li>First assign a <code>cluster</code> attribute to each vertex using the command <code>V(kenya)$cluster &lt;- membership(clust)</code>. (The <code>membership()</code> function assigns each cluster a number, and uses that number to indicate the cluster that each vertex is in.)</li>
+<li>Now, set the <code>color</code> attribute of each vertex according to the cluster it is in. Make cluster 1 <code>'red'</code>, cluster 2 <code>'purple'</code>, cluster 3 <code>'white'</code>, and cluster 4 <code>'gray'</code>. You can use different colors if you want to. (<em>Note: since you have already calculated the cluster membership, this code will look very similar to the code you used for <strong>2c</strong> and <strong>2d</strong> above.</em>)</li>
+<li>Finally, plot your network again. You should see each vertex colored according to the cluster it is in. Do you see any obvious patterns to the clustering based on the vertex characteristics?</li>
+</ul>
+</section>
+</div>
+<h1 class="unnumbered" id="references">References</h1>
+<div id="refs" class="references hanging-indent" role="doc-bibliography">
+<div id="ref-kitiQuantifyingSocialContacts2016">
+<p>Kiti, Moses C., Michele Tizzoni, Timothy M. Kinyanjui, Dorothy C. Koech, Patrick K. Munywoki, Milosch Meriac, Luca Cappa, et al. 2016. “Quantifying Social Contacts in a Household Setting of Rural Kenya Using Wearable Proximity Sensors.” <em>EPJ Data Science</em> 5 (1): 1–21. <a href="https://doi.org/10.1140/epjds/s13688-016-0084-2">https://doi.org/10.1140/epjds/s13688-016-0084-2</a>.</p>
+</div>
+<div id="ref-shwed_temporal_2010">
+<p>Shwed, Uri, and Peter S. Bearman. 2010. “The Temporal Structure of Scientific Consensus Formation.” <em>American Sociological Review</em> 75 (6): 817–40. <a href="https://doi.org/10.1177/0003122410388488">https://doi.org/10.1177/0003122410388488</a>.</p>
+</div>
+</div>
+</body>
+</html>

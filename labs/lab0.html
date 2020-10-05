@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Peter McMahan for SOCI 424" />
+  <title>Lab 0: Getting up and running with R</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="ps.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Lab 0: Getting up and running with R</h1>
+<p class="author">Peter McMahan for <a href="https://soci424.netlify.app/">SOCI 424</a></p>
+</header>
+<h1 id="getting-started-with-r">Getting started with R</h1>
+<p>This (optional) lab is intended for students who have never used R, who don’t have R installed on their computer, or who haven’t used R in so long that they may as well be new to it. We will cover the basics of</p>
+<ol type="1">
+<li>Installing and running R</li>
+<li>Performing basic operations in R</li>
+</ol>
+<h2 id="installing-and-running-r">Installing and running R</h2>
+<p><strong>What is R and why are we using it?</strong></p>
+<p>R is a <em>programming language</em> (a syntax for humans to tell computers what to do) and a <em>runtime environment</em> (a program that translates a language into something a computer understands). This puts it in the same family as computer-sciency languages like Python, C++, Java, etc. But what makes R distinct is that it is a programming language designed specifically for statistical analysis, data manipulation, and the creation of figures and charts—i.e. designed specifically for doing <em>science</em>. R (along with its predecessors S and S-plus) has been used by statisticians, mathematicians, and computer scientists since the 1970s, and since about the mid 00s it has gained a considerable following in the social sciences. I am teaching this course using R for a few reasons:</p>
+<ul>
+<li><strong>R is becoming the de-facto standard for social data science</strong>. There are a large number of software tools for statistical and data analysis (SPSS, Stata, SAS, …), but R is fast becoming the most common. Getting comfortable using R will be a boon for students planning to work with data in academia, industry, government, or anywhere else that values social data analysis.</li>
+<li><strong>R is free</strong>. R is open-source software, which means its underlying source code is available for anyone to look at, tinker with, and potentially contribute to. This leads to more reliable and reproducible research. It also means you don’t need to pay anything to download and install R.</li>
+<li><strong>R has a thriving ecosystem of add-on packages</strong>. Anyone can write an add-on package (called a ‘library’) for R, which means that scientists who are working on the cutting edge of social-science methodology will often implement their ideas in R first. R can do just about anything with the right libraries—such as the network-analysis library <code>igraph</code> that we will be relying on heavily in this class.</li>
+<li><strong>R is versatile</strong>. R has a slightly steeper learning curve than certain software like Stata, but it is also <em>much</em> more versatile. Once you’ve put in the effort to learn to use R for one task (say network analysis) you will find it easy to translate that knowledge to other domains (regression analysis, data visualization, text analysis, etc.).</li>
+</ul>
+<p><strong>Installing R</strong> There are many ways to run, and interact with R, but one of the simplest is to use the <a href="https://rstudio.com/">RStudio</a> interface. RStudio is a bare-bones graphical interface to R that makes a few of the more arcane and common tasks much easier. It also provides a single graphical window where you can write scripts, execute commands, explore your data, see visualsizations, and access documentation.</p>
+<p>R and RStudio are installed separately. If you are using an Apple Mac or a Microsoft Windows computer:</p>
+<ol type="1">
+<li>Install R by going to https://cran.rstudio.com/ and downloading the installer for your computer.</li>
+<li>Install RStudio by going to https://rstudio.com/products/rstudio/download/ and download the <em>free</em> version of RStudio Desktop.</li>
+</ol>
+<p>Once both of these have run, you should be able to open RStudio.</p>
+<p><em>Note: the remainder of this lab is adapted from <a href="https://datacarpentry.org/r-intro-geospatial/01-rstudio-intro/">Data Carpentry’s “Introduction to R and RStudio”</a> (<a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a> by <a href="https://carpentries.org/">The Carpentries</a>.)</em></p>
+<h2 id="introduction-to-rstudio">Introduction to RStudio</h2>
+<p><strong>Basic layout</strong></p>
+<p>When you first open RStudio, you will be greeted by three panels:</p>
+<ul>
+<li>The interactive R console (entire left)</li>
+<li>Environment/History (tabbed in upper right)</li>
+<li>Files/Plots/Packages/Help/Viewer (tabbed in lower right)</li>
+</ul>
+<figure>
+<img src="fig/01-rstudio.png" style="width:100.0%" alt="RStudio layout" /><figcaption aria-hidden="true">RStudio layout</figcaption>
+</figure>
+<p>Once you open files, such as R scripts, an editor panel will also open in the top left.</p>
+<figure>
+<img src="fig/01-rstudio-script.png" style="width:100.0%" alt="RStudio layout with .R file open" /><figcaption aria-hidden="true">RStudio layout with .R file open</figcaption>
+</figure>
+<h2 id="workflow-within-rstudio">Workflow within RStudio</h2>
+<p>There are two main ways one can work within RStudio. Both of them create an “.R” file, which is just a text file on your computer that contains a series of R commands (an R script).</p>
+<ol type="1">
+<li>Test and play within the interactive R console then copy code into a .R file to run later.
+<ul>
+<li>This works well when doing small tests and initially starting off.</li>
+<li>It quickly becomes laborious</li>
+</ul></li>
+<li>Start writing in an .R file and use RStudio’s shortcut keys for the Run command to push the current line, selected lines or modified lines to the interactive R console.
+<ul>
+<li>This is a great way to start; all your code is saved for later</li>
+<li>You will be able to run the file you create from within RStudio or using R’s <code>source()</code> function.</li>
+</ul></li>
+</ol>
+<div class="callout">
+<blockquote>
+<h2 id="tip-running-segments-of-your-code">Tip: Running segments of your code</h2>
+<p>RStudio offers you great flexibility in running code from within the editor window. There are buttons, menu choices, and keyboard shortcuts. To run the current line, you can</p>
+<ol type="1">
+<li>click on the <code>Run</code> button above the editor panel, or</li>
+<li>select “Run Lines” from the “Code” menu, or</li>
+<li>hit <kbd>Ctrl</kbd>+<kbd>Enter</kbd> in Windows, <kbd>Ctrl</kbd>+<kbd>Return</kbd> in Linux, or <kbd>⌘</kbd>+<kbd>Return</kbd> on OS X. (This shortcut can also be seen by hovering the mouse over the button). To run a block of code, select it and then <code>Run</code>. If you have modified a line of code within a block of code you have just run, there is no need to reselect the section and <code>Run</code>, you can use the next button along, <code>Re-run the previous region</code>. This will run the previous code block including the modifications you have made.</li>
+</ol>
+</blockquote>
+</div>
+<h2 id="introduction-to-r">Introduction to R</h2>
+<p>Much of your time in R will be spent in the R interactive console. This is where you will run all of your code, and can be a useful environment to try out ideas before adding them to an R script file. This console in RStudio is the same as the one you would get if you typed in <code>R</code> in your command-line environment.</p>
+<p>The first thing you will see in the R interactive session is a bunch of information, followed by a “&gt;” and a blinking cursor. This where you type in commands, R tries to execute them, and then returns a result.</p>
+<h2 id="using-r-as-a-calculator">Using R as a calculator</h2>
+<p>The simplest thing you could do with R is do arithmetic:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="dv">1</span> <span class="op">+</span><span class="st"> </span><span class="dv">100</span></span></code></pre></div>
+<p>And R will print out the answer, with a preceding “<code>[1]</code>”. Don’t worry about this for now, we’ll explain that later. For now think of it as indicating output.</p>
+<p>If you type in an incomplete command, R will wait for you to complete it:</p>
+<div class="language-r">
+<pre><code>&gt; 1 +</code></pre>
+</div>
+<div class="output">
+<pre><code>+</code></pre>
+</div>
+<p>Any time you hit return and the R session shows a “<code>+</code>” instead of a “<code>&gt;</code>”, it means it’s waiting for you to complete the command. If you want to cancel a command you can simply hit “<kbd>Esc</kbd>” and RStudio will give you back the “<code>&gt;</code>” prompt.</p>
+<div class="callout">
+<blockquote>
+<h2 id="tip-cancelling-commands">Tip: Cancelling commands</h2>
+<p>If you’re using R from the command line instead of from within RStudio, you need to use <kbd>Ctrl</kbd>+<kbd>C</kbd> instead of <kbd>Esc</kbd> to cancel the command. This applies to Mac users as well!</p>
+<p>Cancelling a command isn’t only useful for killing incomplete commands: you can also use it to tell R to stop running code (for example if it’s taking much longer than you expect), or to get rid of the code you’re currently writing.</p>
+</blockquote>
+</div>
+<p>When using R as a calculator, the order of operations is the same as you would have learned back in school.</p>
+<p>From highest to lowest precedence:</p>
+<ul>
+<li>Parentheses: <code>(</code>, <code>)</code></li>
+<li>Exponents: <code>^</code> or <code>**</code></li>
+<li>Divide: <code>/</code></li>
+<li>Multiply: <code>*</code></li>
+<li>Add: <code>+</code></li>
+<li>Subtract: <code>-</code></li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span></span></code></pre></div>
+<p>Use parentheses to group operations in order to force the order of evaluation if it differs from the default, or to make clear what you intend.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>(<span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="dv">5</span>) <span class="op">*</span><span class="st"> </span><span class="dv">2</span></span></code></pre></div>
+<p>This can get unwieldy when not needed, but clarifies your intentions. Remember that others may later read your code.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>(<span class="dv">3</span> <span class="op">+</span><span class="st"> </span>(<span class="dv">5</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">^</span><span class="st"> </span><span class="dv">2</span>))) <span class="co"># hard to read</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span><span class="dv">2</span> <span class="op">^</span><span class="st"> </span><span class="dv">2</span>       <span class="co"># clear, if you remember the rules</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="dv">3</span> <span class="op">+</span><span class="st"> </span><span class="dv">5</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)     <span class="co"># if you forget some rules, this might help</span></span></code></pre></div>
+<p>The text after each line of code is called a “comment”. Anything that follows after the hash (or octothorpe) symbol <code>#</code> is ignored by R when it executes code.</p>
+<p>Really small or large numbers get a scientific notation:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="dv">2</span><span class="op">/</span><span class="dv">10000</span></span></code></pre></div>
+<p>Which is shorthand for “multiplied by <code>10^XX</code>”. So <code>2e-4</code> is shorthand for <code>2 * 10^(-4)</code>.</p>
+<p>You can write numbers in scientific notation too:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="fl">5e3</span>  <span class="co"># Note the lack of minus here</span></span></code></pre></div>
+<p>Don’t worry about trying to remember every function in R. You can look them up on Google, or if you can remember the start of the function’s name, use the tab completion in RStudio.</p>
+<p>This is one advantage that RStudio has over R on its own, it has auto-completion abilities that allow you to more easily look up functions, their arguments, and the values that they take.</p>
+<p>Typing a <code>?</code> before the name of a command will open the help page for that command. As well as providing a detailed description of the command and how it works, scrolling to the bottom of the help page will usually show a collection of code examples which illustrate command usage. We’ll go through an example later.</p>
+<h2 id="comparing-things">Comparing things</h2>
+<p>We can also do comparison in R:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="dv">1</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span>  <span class="co"># equality (note two equals signs, read as &quot;is equal to&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="dv">1</span> <span class="op">!=</span><span class="st"> </span><span class="dv">2</span>  <span class="co"># inequality (read as &quot;is not equal to&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="dv">1</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">2</span>  <span class="co"># less than</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="dv">1</span> <span class="op">&lt;=</span><span class="st"> </span><span class="dv">1</span>  <span class="co"># less than or equal to</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="dv">1</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>  <span class="co"># greater than</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="dv">1</span> <span class="op">&gt;=</span><span class="st"> </span><span class="dv">-9</span> <span class="co"># greater than or equal to</span></span></code></pre></div>
+<div class="callout">
+<blockquote>
+<h2 id="tip-comparing-numbers">Tip: Comparing Numbers</h2>
+<p>A word of warning about comparing numbers: you should never use <code>==</code> to compare two numbers unless they are integers (a data type which can specifically represent only whole numbers).</p>
+<p>Computers may only represent decimal numbers with a certain degree of precision, so two numbers which look the same when printed out by R, may actually have different underlying representations and therefore be different by a small margin of error (called Machine numeric tolerance).</p>
+<p>Instead you should use the <code>all.equal</code> function.</p>
+<p>Further reading: <a href="http://floating-point-gui.de/">http://floating-point-gui.de/</a></p>
+</blockquote>
+</div>
+<h2 id="variables-and-assignment">Variables and assignment</h2>
+<p>We can store values in variables using the assignment operator <code>&lt;-</code>, like this:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">40</span></span></code></pre></div>
+<p>Notice that assignment does not print a value. Instead, we stored it for later in something called a <strong>variable</strong>. <code>x</code> now contains the <strong>value</strong> <code>0.025</code>:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>x</span></code></pre></div>
+<p>More precisely, the stored value is a <em>decimal approximation</em> of this fraction called a <a href="http://en.wikipedia.org/wiki/Floating_point">floating point number</a>.</p>
+<p>Look for the <code>Environment</code> tab in one of the panes of RStudio, and you will see that <code>x</code> and its value have appeared. Our variable <code>x</code> can be used in place of a number in any calculation that expects a number:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="kw">log</span>(x)</span></code></pre></div>
+<p>Notice also that variables can be reassigned:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>x &lt;-<span class="st"> </span><span class="dv">100</span></span></code></pre></div>
+<p><code>x</code> used to contain the value 0.025 and and now it has the value 100.</p>
+<p>Assignment values can contain the variable being assigned to:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a>x &lt;-<span class="st"> </span>x <span class="op">+</span><span class="st"> </span><span class="dv">1</span> <span class="co">#notice how RStudio updates its description of x on the top right tab</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>y &lt;-<span class="st"> </span>x <span class="op">*</span><span class="st"> </span><span class="dv">2</span></span></code></pre></div>
+<p>The right hand side of the assignment can be any valid R expression. The right hand side is <em>fully evaluated</em> before the assignment occurs.</p>
+<div class="challenge">
+<h2 id="challenge-1">Challenge 1</h2>
+<p>What will be the value of each variable after each statement in the following program?</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a>mass &lt;-<span class="st"> </span><span class="fl">47.5</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a>age &lt;-<span class="st"> </span><span class="dv">122</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a>mass &lt;-<span class="st"> </span>mass <span class="op">*</span><span class="st"> </span><span class="fl">2.3</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true"></a>age &lt;-<span class="st"> </span>age <span class="op">-</span><span class="st"> </span><span class="dv">20</span></span></code></pre></div>
+<div class="solution">
+<section id="solution-to-challenge-1" class="solutiontitle" tabindex="3000">
+<h2>Solution to challenge 1</h2>
+</section>
+<div class="solutionbody">
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a>mass &lt;-<span class="st"> </span><span class="fl">47.5</span></span></code></pre></div>
+<p>This will give a value of <code>r mass</code> for the variable mass</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a>age &lt;-<span class="st"> </span><span class="dv">122</span></span></code></pre></div>
+<p>This will give a value of <code>r age</code> for the variable age</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a>mass &lt;-<span class="st"> </span>mass <span class="op">*</span><span class="st"> </span><span class="fl">2.3</span></span></code></pre></div>
+<p>This will multiply the existing value of <code>r mass/2.3</code> by 2.3 to give a new value of <code>r mass</code> to the variable mass.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a>age &lt;-<span class="st"> </span>age <span class="op">-</span><span class="st"> </span><span class="dv">20</span></span></code></pre></div>
+<p>This will subtract 20 from the existing value of <code>r age + 20</code> to give a new value of <code>r age</code> to the variable age.</p>
+</div>
+</div>
+</div>
+<div class="challenge">
+<h2 id="challenge-2">Challenge 2</h2>
+<p>Run the code from the previous challenge, and write a command to compare mass to age. Is mass larger than age?</p>
+<div class="solution">
+<section id="solution-to-challenge-2" class="solutiontitle" tabindex="3000">
+<h2>Solution to challenge 2</h2>
+</section>
+<div class="solutionbody">
+<p>One way of answering this question in R is to use the <code>&gt;</code> to set up the following:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a>mass <span class="op">&gt;</span><span class="st"> </span>age</span></code></pre></div>
+<p>This should yield a boolean value of TRUE since <code>r mass</code> is greater than <code>r age</code>.</p>
+</div>
+</div>
+</div>
+<p>Variable names can contain letters, numbers, underscores and periods. They cannot start with a number nor contain spaces at all. Different people use different conventions for long variable names, these include</p>
+<ul>
+<li><code>periods.between.words</code></li>
+<li><code>underscores_between_words</code></li>
+<li><code>camelCaseToSeparateWords</code></li>
+</ul>
+<p>What you use is up to you, but <strong>be consistent</strong>.</p>
+<p>It is also possible to use the <code>=</code> operator for assignment:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a>x =<span class="st"> </span><span class="dv">1</span><span class="op">/</span><span class="dv">40</span></span></code></pre></div>
+<p>But this is much less common among R users. The most important thing is to <strong>be consistent</strong> with the operator you use. There are occasionally places where it is less confusing to use <code>&lt;-</code> than <code>=</code>, and it is the most common symbol used in the community. So the recommendation is to use <code>&lt;-</code>.</p>
+<div class="challenge">
+<h2 id="challenge-3">Challenge 3</h2>
+<p>Which of the following are valid R variable names?</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a>min_height</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a>max.height</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a>_age</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a>.mass</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a>MaxLength</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a>min<span class="op">-</span>length</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a>2widths</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true"></a>celsius2kelvin</span></code></pre></div>
+<div class="solution">
+<section id="solution-to-challenge-3" class="solutiontitle" tabindex="3000">
+<h2>Solution to challenge 3</h2>
+</section>
+<div class="solutionbody">
+<p>The following can be used as R variables:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a>min_height</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a>max.height</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a>MaxLength</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true"></a>celsius2kelvin</span></code></pre></div>
+<p>The following creates a hidden variable:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a>.mass</span></code></pre></div>
+<p>We won’t be discussing hidden variables in this lesson. We recommend not using a period at the beginning of variable names unless you intend your variables to be hidden.</p>
+<p>The following will not be able to be used to create a variable</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a>_age</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a>min<span class="op">-</span>length</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a>2widths</span></code></pre></div>
+</div>
+</div>
+</div>
+</body>
+</html>

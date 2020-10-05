@@ -1,0 +1,92 @@
+
+/* overall styling */
+body {
+   font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+   font-weight: 300;
+   width: 80%;
+   max-width: 800px;
+   min-width: 300px;
+   margin-left: 0;
+   margin-right: auto;
+   font-size: 12pt;
+}
+
+
+/* text styles */
+a {
+    text-decoration: underline dotted #222;
+    /*text-decoration: none;*/
+    color: black;
+}
+a:hover {
+    color: #fff;
+    background-color: black;
+    text-decoration: none;
+} 
+
+
+
+/* unordered lists */
+ul {
+    list-style: none;
+    padding-left: 5px;
+}
+ul>li {
+    border-left: 2px dotted black;
+    padding-left: 8px;
+    margin-bottom: 8px;
+}
+
+
+/* callout divs */
+.callout {
+    border-left: 4px solid black;
+    border-top: 4px solid black;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.callout blockquote {
+    border: none;
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.callout h2 {
+    font-size:14pt;
+    font-weight: 900;
+}
+
+/* Challenge and solution */
+.challenge {
+    border-left: 4px solid black;
+    border-top: 4px solid black;
+    padding-left: 20px;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+
+.solution {
+    border-left: 4px solid black;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+.solutiontitle {
+    cursor: pointer;
+}
+
+.solutionbody {
+    display: none;
+}
+
+.solutiontitle:focus + .solutionbody {
+    display: block;
+}
+.solutiontitle::after {
+    content: "(click to show)";
+}
+
