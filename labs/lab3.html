@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="Peter McMahan for SOCI 424" />
+  <title>Lab 3: Centrality and position.</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="ps.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Lab 3: Centrality and position.</h1>
+<p class="author">Peter McMahan for <a href="https://soci424.netlify.app/">SOCI 424</a></p>
+</header>
+<p><strong>Due Thursay, Nov 5 by 5pm, Eastern Daylight Time</strong></p>
+<blockquote>
+<p><strong><em>To complete the lab, you should create an R script that will address all of the questions below. Responses should use plain, descriptive language to address the questions. The text of your responses can be included in the file as comments (putting a <code>#</code> character before a line of text will tell R to ignore that line).</em></strong></p>
+</blockquote>
+<p><strong>Film actor networks</strong></p>
+<p>In ths lab, you will use data sourced from <a href="https://www.imdb.com">IMDB</a> to examine the co-starring network of director <a href="https://www.imdb.com/name/nm0094435/">Bong Joon Ho</a> (<a href="https://www.imdb.com/title/tt6751668/"><em>Parasite</em> (2019)</a>, <a href="https://www.imdb.com/title/tt1706620/"><em>Snowpiercer</em> (2013)</a>, <a href="https://www.imdb.com/title/tt0468492/"><em>The Host</em> (2006)</a>). The network was constructed by enumerating the cast list of all seven of Bong’s feature-length films, then measuring how many movies <em>not</em> directed by Bong each pair of actors co-starred in. Bong is a Korean director who has moved into English-language in recent years, which yields interesting structures in the professional network of his actors.</p>
+<div class="callout">
+<p><strong><em>Aside:</em></strong> This dataset illustrates one of the many ways that data science often implicitly prioritizes Western norms. Since most databases record family name and given name as separate variables, public-facing representations of that data must choose the order to present those names in. Korean names are traditionally written with the family name first (e.g. “Song Kang-ho”), while English names traditionally put the given name first (e.g. “Chris Evans”). However, IMDB (the source of this data) lists Korean actors’ names in the Western order (e.g. “Kang-ho Song”), even for actors who only appear in Korean-language films (moreover, it lists those names in Roman script: “Kang-ho Song” rather than “송강호”).</p>
+</div>
+<figure>
+<img src="fig/parasite_sag.jpg" style="width:70.0%" alt="Some of the cast of Parasite posing with Screen Actors Guild Awards." /><figcaption aria-hidden="true">Some of the cast of <em>Parasite</em> posing with Screen Actors Guild Awards.</figcaption>
+</figure>
+<h2 id="load-and-inspect-the-network">1. Load and inspect the network</h2>
+<div class="contentblock">
+<p>The data is organized in two files: <code>bongjoonho_actors.csv</code> lists each actor along with a unique ID for that actor, and <code>bongjoonho_edges.csv</code> lists pairs of actor IDs and the number of movies they have been in together.</p>
+<section id="a." class="challenge">
+<h2>1a.</h2>
+<p>This two-file format (one for vertex information, one for edge information) is a common way that network data is stored. The following commands will load the data directly from the internet and create an igraph network from them. You can copy and paste these lines into your script, but spend a moment with each line to try to understand what it does.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="co"># load the igraph library</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">library</span>(igraph)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="co"># load &#39;edges&#39; and &#39;actors&#39;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>edges &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://soci424.netlify.com/data/bongjoonho_edges.csv&#39;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>actors &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://soci424.netlify.com/data/bongjoonho_actors.csv&#39;</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a><span class="co"># create an igraph object from the `edges`</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a><span class="co"># (note, the `graph_from_data_frame()` function automatically loads the &quot;weight&quot; column</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a><span class="co"># as an edge attribute.)</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>costar &lt;-<span class="st"> </span><span class="kw">graph_from_data_frame</span>(edges,<span class="dt">directed=</span><span class="ot">FALSE</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true"></a><span class="co"># igraph automatically made a &quot;name&quot; vertex attribute based on the actors&#39; ID, but</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true"></a><span class="co"># we want to use the actors&#39; actual name as a vertex label. So first we create a new</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true"></a><span class="co"># vertex attribute &quot;actor_id&quot;:</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>actor_id &lt;-<span class="st"> </span><span class="kw">V</span>(costar)<span class="op">$</span>name</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true"></a><span class="co"># and then we overwrite the &quot;name&quot; attribute with the name from the &quot;actors&quot; file</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>name&lt;-<span class="st"> </span>actors<span class="op">$</span>name[<span class="kw">match</span>(<span class="kw">V</span>(costar)<span class="op">$</span>actor_id,actors<span class="op">$</span>nmid)]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true"></a><span class="co"># the &#39;actors&#39; file also contains information on which of Bong&#39;s movies each actor was in</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true"></a><span class="co"># move all of that data into the network vertex attributes</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>parasite&lt;-<span class="st"> </span>actors<span class="op">$</span>parasite[<span class="kw">match</span>(<span class="kw">V</span>(costar)<span class="op">$</span>actor_id,actors<span class="op">$</span>nmid)]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>okja&lt;-<span class="st"> </span>actors<span class="op">$</span>okja[<span class="kw">match</span>(<span class="kw">V</span>(costar)<span class="op">$</span>actor_id,actors<span class="op">$</span>nmid)]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>snowpiercer&lt;-<span class="st"> </span>actors<span class="op">$</span>snowpiercer[<span class="kw">match</span>(<span class="kw">V</span>(costar)<span class="op">$</span>actor_id,actors<span class="op">$</span>nmid)]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>mother&lt;-<span class="st"> </span>actors<span class="op">$</span>mother[<span class="kw">match</span>(<span class="kw">V</span>(costar)<span class="op">$</span>actor_id,actors<span class="op">$</span>nmid)]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>the_host&lt;-<span class="st"> </span>actors<span class="op">$</span>the_host[<span class="kw">match</span>(<span class="kw">V</span>(costar)<span class="op">$</span>actor_id,actors<span class="op">$</span>nmid)]</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>memories_of_murder&lt;-<span class="st"> </span>actors<span class="op">$</span>memories_of_murder[<span class="kw">match</span>(<span class="kw">V</span>(costar)<span class="op">$</span>actor_id,actors<span class="op">$</span>nmid)]</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true"></a><span class="kw">V</span>(costar)<span class="op">$</span>barking_dogs_never_bite&lt;-<span class="st"> </span>actors<span class="op">$</span>barking_dogs_never_bite[<span class="kw">match</span>(<span class="kw">V</span>(costar)<span class="op">$</span>actor_id,actors<span class="op">$</span>nmid)]</span></code></pre></div>
+</section>
+<section id="b." class="challenge">
+<h2>1b.</h2>
+<p>Use <code>igraph</code>‘s’ built-in functions (<code>vcount()</code>, etc.) to explore the network you just created:</p>
+<ul>
+<li>How many actors are in the network?</li>
+<li>How many pairs of actors co-starred in at least one film (i.e. how many edges are there)?</li>
+<li>Look at the <code>name</code> vertex attribute. At first glance, does it seem like there are more Korean or non-Korean names listed?</li>
+<li>Now look at the <code>weight</code> edge attribute, which represents the number of films different pairs of actors co-starred in. Is there much variation? What is the largest value in this attribute?</li>
+</ul>
+</section>
+<section id="c." class="challenge">
+<h2>1c.</h2>
+<p>Create a simple visualization of the network to see if there is any obvious structure to it. Adjust the vertex attribute <code>size</code> to change the size of the vertices, and the vertex attribute <code>label.cex</code> to adjust the font size of the labels (values of <code>label.cex</code> less than one will make the labels smaller, and values greater than one will make the labels larger). What patterns do the clustering in the network suggest?</p>
+</section>
+</div>
+</body>
+</html>
