@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Peter McMahan for SOCI 424" />
-  <title>Lab 3: Centrality and position.</title>
+  <meta name="author" content="SOCI 424" />
+  <title>Lab 3: Centrality</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -84,8 +84,8 @@
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Lab 3: Centrality and position.</h1>
-<p class="author">Peter McMahan for <a href="https://soci424.netlify.app/">SOCI 424</a></p>
+<h1 class="title">Lab 3: Centrality</h1>
+<p class="author"><a href="https://soci424.netlify.app/">SOCI 424</a></p>
 </header>
 <p><strong>Due Thursay, Nov 5 by 5pm, Eastern Daylight Time</strong></p>
 <blockquote>
@@ -138,8 +138,8 @@
 <h2>1b.</h2>
 <p>Use <code>igraph</code>‘s’ built-in functions (<code>vcount()</code>, etc.) to explore the network you just created:</p>
 <ul>
-<li>How many actors are in the network?</li>
-<li>How many pairs of actors co-starred in at least one film (i.e. how many edges are there)?</li>
+<li>How many actors are in the network? Is this the same number of actors represented in the <code>actors</code> data you loaded? Why or why not?</li>
+<li>How many pairs of actors co-starred in at least one non-Bong film (i.e. how many edges are there)?</li>
 <li>Look at the <code>name</code> vertex attribute. At first glance, does it seem like there are more Korean or non-Korean names listed?</li>
 <li>Now look at the <code>weight</code> edge attribute, which represents the number of films different pairs of actors co-starred in. Is there much variation? What is the largest value in this attribute?</li>
 </ul>
@@ -147,6 +147,56 @@
 <section id="c." class="challenge">
 <h2>1c.</h2>
 <p>Create a simple visualization of the network to see if there is any obvious structure to it. Adjust the vertex attribute <code>size</code> to change the size of the vertices, and the vertex attribute <code>label.cex</code> to adjust the font size of the labels (values of <code>label.cex</code> less than one will make the labels smaller, and values greater than one will make the labels larger). What patterns do the clustering in the network suggest?</p>
+</section>
+</div>
+<h2 id="centrality-measures">2. Centrality measures</h2>
+<div class="contentblock">
+<p>The following prompts will guide you through the application of some common measures of vertex centrality on the actor co-star network.</p>
+<section id="a.-1" class="challenge">
+<h2>2a.</h2>
+<p>The most straightforward measure of centrality is <em>degree centrality</em>. Degree can be measured simply with the <code>degree()</code> function that is built in to igraph.</p>
+<ul>
+<li>First, look at the documentation for <code>degree()</code>, either by typing <code>?degree</code> into the console or searching for “degree” in the help panel of RStudio. What are the possible values for the <code>mode</code> argument? Which <code>mode</code> makes the most sense for our co-star network?</li>
+<li>Use the <code>degree()</code> function to calculate the degree centrality for each vertex in <code>costar</code>. Which actor has the highest value of degree centrality, and what is that value? In plain language (that is, without using networks terminology), what does that value mean?</li>
+<li>Re-plot the network, but this time color all the vertices with a degree of at least 30 in red so they will stand out. What does a visual inspection of the new plot tell you about where the high-degree actors are in the network?</li>
+</ul>
+</section>
+<section id="b.-1" class="challenge">
+<h2>2b.</h2>
+<p>Degree a ‘local’ measure of an actor’s centrality—it pays attention to an actor’s immediate network neighbors but does not incorporate any information about those neighbors’ neighbors (etc.). <em>Eigenvector centrality</em> can be thought of as degree centrality that weights ties by the importance of an actor’s neighbors.</p>
+<ul>
+<li>Use the function <code>eigen_centrality()</code> to measure the eigenvector centrality of all of the actors in the network. (<em>Note: a call to<code>eigen_centrality()</code> yields a list with several different elements that give some extra detail about the calculation. The element we are interested is called <code>vector</code>, so to get just that information you can use the command <code>eigen_centrality(costar)$vector</code>.</em>) Which actor has the highest eigenvector centrality? What is the value of that actor’s eigenvector centrality? Does this number mean something on its own, or only in relation to the other actors’ scores?</li>
+<li>The function <code>gray()</code> is a handy way to create a spectrum of colors between white and black for visualization. For instance, <code>gray(0)</code> will yield the color black, and <code>gray(.9)</code> will yield a shade of gray that is close to white. Use this function to color the vertices in your network depending on their eigenvector centrality. (<em>Eigenvector centrality is always between zero and one, so you do not need to rescale the values.</em>) When you plot the newly colored network, where are the high–eigenvector centrality actors in the network structure? How does this differ from the degree centrality you analyzed in <strong>2a</strong>?</li>
+<li><strong>Bonus:</strong> Plot the network with the most central vertices in black and the least central in white.</li>
+</ul>
+</section>
+<section id="c.-1" class="challenge">
+<h2>2c.</h2>
+<p>The final centrality measure we will look at is <em>betweenness centrality</em>. Betweenness centrality takes a fundamentally different approach than degree or eigenvector centrality, focusing on <em>paths</em> through the network rather than the neighbors of each vertex.</p>
+<ul>
+<li>Skim the documentation for the <code>betweenness()</code> function. Look at the description of the <code>weights</code> argument. How does the interpretation of the <code>weight</code> edge attribute differ bewteen <code>eigen_centrality()</code> and <code>betweenness()</code>? Does it make sense to use the same edge weights to calculate betweenness as you did for eigenvector centrality?</li>
+<li>Use the <code>betweenness()</code> function to calculate the betweenness centrality of every actor in the network. You will need to specify the edge weights directly in your call to <code>betweenness()</code>. (<em>There are several common ways to ‘invert’ a variable so that low values become high and high values become low. A good one to use for edge weights is to divide 1 by the weights so that a value of 10 becomes 1/10, and a value of 2 becomes 1/2.</em>).</li>
+<li>Look at the actors with the five highest betweenness scores (the <code>sort()</code> function might be useful here). Who has the highest score? Why do you think that actor might have a high betweenness score (feel free to look these actors up online!).</li>
+<li>Plot the network with gray-scale vertex colors like you did in <strong>2b</strong>, but this time using the actors’ betweenness centrality. (<em>Because <code>gray()</code> expects values from 0 to 1, but betweenness centrality can take on very large values, you will need to “normalize” the betweenness values first. This just means dividing every actor’s betweenness score by the maximum betweenness score.</em>)</li>
+<li>How does The distribution of high-betweenness actors differ from that of high-degree and high-eigenvector actors?</li>
+</ul>
+</section>
+</div>
+<h2 id="boundaries">3. Boundaries</h2>
+<div class="contentblock">
+<p>Most measures of network centrality are highly sensitive to the <em>boundary</em> of a network. A vertex that is marginal to one group specification might be highly central to another. The boundary of the network we have been exploring so far is defined by acting any <em>any</em> feature film by Bong Joon-ho, but other network specifications might yield different results.</p>
+<section id="a.-2" class="challenge">
+<h2>3a.</h2>
+<p>First, we will consider the co-star network of actors who were in the 2017 movie <em>Okja</em>. This film is notable for having an especially international cast.</p>
+<ul>
+<li>Create a new <code>igraph</code> object named <code>okja_net</code> by dropping any actors who did not star in <em>Okja</em> from the <code>costar</code> network. You will probably want to use the <code>induced_subgraph()</code> function to find the <em>subgraph</em> of <code>costar</code> with vertex attribute <code>okja</code> equal to <code>1</code>.</li>
+<li>Create two different visualizations of this network: one that illustrates the actors’ <em>eigenvector</em> centrality and one that illustrates the actors’ <em>betweenness</em> centrality. (You should be able to re-use a lot of code from part <strong>2</strong> for this.)</li>
+<li>Describe this <em>Okja</em> network in your own words, including its overall structure (i.e. does it have multiple clear clusters?) and which actors are central. Investigate a few of the actors in key positions in the network online. Can you say much about why they might occupy those positions?</li>
+</ul>
+</section>
+<section id="b.-2" class="challenge">
+<h2>3b.</h2>
+<p>Pick another film from Bong’s filmography (<em>Parasite</em>, <em>Snowpiercer</em>, <em>Mother</em>, <em>The Host</em>, <em>Memories of Murder</em>, or <em>Barking Dogs Never Bite</em>), and repeat <strong>3b</strong> for the subset of actors who were in that movie. What differences do you see between the co-star networks for the two films? Do they have obviously different overall structures? Do the central actors in the two networks seem to occupy different types of positions? How might you explain any differences you encounter? (This is a very open-ended question. Feel free to draw on any ideas, information, or theories you want 😁)</p>
 </section>
 </div>
 </body>
